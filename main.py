@@ -27,7 +27,7 @@ def main(argv):
 
                     clientes.append((msg, cliente))
             except:
-                print('Tempo esgotado, calculando novo valor do relogio...\n')
+                print('Tempo esgotado, calculando novo valor do relogio...\n\n')
                 tempo = 0
                 qtd = 0
                 for linha in clientes:
@@ -39,18 +39,13 @@ def main(argv):
                     final = tempo/qtd
                     p.send(data = str.encode('atualizar:'+str(int(final))))
                 
-                while True:
-                    try:
-                        msg, cliente = p.recv()
-                        print(msg.decode(), cliente)
+                msg, cliente = p.recv()
+                print(msg.decode(), cliente)
 
-                        comando = msg.decode().split(':')
-                        r.atualizarTempo(int(comando[1]))
-                        print('Tempo atualizado para: ', r.pegarTempo())
-                        print('\n\n')
-                        break
-                    except:
-                        print("Aguardando mensagem de atualização...\n")
+                comando = msg.decode().split(':')
+                r.atualizarTempo(int(comando[1]))
+                print('Tempo atualizado para: ', r.pegarTempo())
+                print('\n\n')
     else:
         while True:
             try:
@@ -63,7 +58,7 @@ def main(argv):
                     p.send(data = str.encode(str(r.pegarTempo())), address = cliente)
                 elif comando[0] == 'atualizar':
                     r.atualizarTempo(int(comando[1]))
-                    print('Tempo atualizado para: ', r.pegarTempo())
+                    p.send(data = str.encode('feito'), address = cliente)
             except:
                 print("Aguardando...\n")
 
