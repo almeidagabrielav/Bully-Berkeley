@@ -6,7 +6,6 @@ import getopt
 def main(argv):
     r = Relogio(incremento = 1)
     r.start()
-    p = Network(host = '192.168.1.4')
     coord = False
 
     if len(argv) != 0 and argv[0] == 'coord':
@@ -20,7 +19,7 @@ def main(argv):
             try:
                 while True:
                     msg, cliente = p.recv()
-                    print(msg.decode(), cliente)
+                    print(msg.decode(), cliente) 
 
                     if cliente[0] == p.DEFAULT_HOST:
                         msg = str.encode(str(r.pegarTempo()))
@@ -58,7 +57,6 @@ def main(argv):
                     p.send(data = str.encode(str(r.pegarTempo())), address = cliente)
                 elif comando[0] == 'atualizar':
                     r.atualizarTempo(int(comando[1]))
-                    p.send(data = str.encode('feito'), address = cliente)
             except:
                 print("Aguardando...\n")
 
