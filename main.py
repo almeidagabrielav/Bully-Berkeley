@@ -6,6 +6,7 @@ import getopt
 def main(argv):
     r = Relogio(incremento = 1)
     r.start()
+    p = Network(host = '192.168.0.188')
     coord = False
 
     if len(argv) != 0 and argv[0] == 'coord':
